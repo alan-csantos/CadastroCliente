@@ -2,6 +2,7 @@ package DAO;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.TreeMap;
 
 import Modelos.Cliente;
 
@@ -14,32 +15,39 @@ public class ClienteMapDAO implements IClienteDAO {
 
     @Override
     public Boolean cadastrar(Cliente cliente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cadastrar'");
+        if(map.containsKey(cliente.getCpf())){
+            return false;
+        }
+
+        map.put(cliente.getCpf(),cliente);
+        return true;
     }
 
     @Override
     public void excluir(Long cpf) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'excluir'");
+       Cliente clienteCadastrado  = map.get(cpf);
+       map.remove(clienteCadastrado.getCpf(), clienteCadastrado);
     }
 
     @Override
     public void alterar(Cliente cliente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'alterar'");
+       Cliente clienteCadastrado  = map.get(cliente.getCpf());
+       clienteCadastrado.setNome(cliente.getNome());
+       clienteCadastrado.setTelefone(cliente.getTelefone());
+       clienteCadastrado.setNumero(cliente.getNumero());
+       clienteCadastrado.setEndereco(cliente.getEndereco());
+       clienteCadastrado.setCidade(cliente.getCidade());
+       clienteCadastrado.setEstado(cliente.getEstado());
     }
 
     @Override
     public Cliente consultar(Long cpf) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'consultar'");
+       return this.map.get(cpf);
     }
 
     @Override
     public Collection<Cliente> buscarTodos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarTodos'");
+        return this.map.values();
     }
     
 }
